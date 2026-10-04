@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
+  <title>CROPWATCH Monitoring Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">CROPWATCH</p>
+      <h1>Hydroponic Monitoring System</h1>
+    </div>
+    <div class="connection-wrap">
+      <span id="connectionDot" class="status-dot online"></span>
+      <span id="connectionText">Online</span>
+      <button id="notificationBtn" class="secondary-btn">Enable notifications</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="alert-banner hidden" id="offlineBanner">
+      <strong>Offline mode.</strong>
+      Sensor records are being stored locally and will sync when the connection returns.
+    </section>
+
+    <section class="grid sensors">
+      <article class="sensor-card">
+        <div class="card-head"><span>pH Level</span><span class="icon">pH</span></div>
+        <div class="value-row"><strong id="phValue">--</strong><span>pH</span></div>
+        <p id="phStatus" class="status normal">Waiting for data</p>
+        <div class="range"><span>Recommended: 5.5 to 6.5</span></div>
+      </article>
+
+      <article class="sensor-card">
+        <div class="card-head"><span>Air Temperature</span><span class="icon">°C</span></div>
+        <div class="value-row"><strong id="airTempValue">--</strong><span>°C</span></div>
+        <p id="airTempStatus" class="status normal">Waiting for data</p>
+        <div class="range"><span>Current air temperature</span></div>
+      </article>
+
+      <article class="sensor-card">
+        <div class="card-head"><span>Humidity</span><span class="icon">RH</span></div>
+        <div class="value-row"><strong id="humidityValue">--</strong><span>%</span></div>
+        <p id="humidityStatus" class="status normal">Waiting for data</p>
+        <div class="range"><span>Relative humidity</span></div>
+      </article>
+
+      <article class="sensor-card">
+        <div class="card-head"><span>Water Temperature</span><span class="icon">WT</span></div>
+        <div class="value-row"><strong id="waterTempValue">--</strong><span>°C</span></div>
+        <p id="waterTempStatus" class="status normal">Waiting for data</p>
+        <div class="range"><span>Reservoir temperature</span></div>
+      </article>
+
+      <article class="sensor-card">
+        <div class="card-head"><span>NPK Solution</span><span class="icon">NPK</span></div>
+        <div class="value-row"><strong id="npkValue">--</strong><span>ppm</span></div>
+        <p id="npkStatus" class="status normal">Waiting for data</p>
+        <div class="range"><span>Total nutrient concentration</span></div>
+      </article>
+
+      <article class="sensor-card">
+        <div class="card-head"><span>Dissolved Oxygen</span><span class="icon">DO</span></div>
+        <div class="value-row"><strong id="doValue">--</strong><span>mg/L</span></div>
+        <p id="doStatus" class="status normal">Waiting for data</p>
+        <div class="range"><span>Water oxygen level</span></div>
+      </article>
+    </section>
+
+    <section class="grid lower-grid">
+      <article class="panel camera-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">LIVE VIEW</p>
+            <h2>Hydroponic Camera</h2>
+          </div>
+          <span id="cameraStatus" class="badge">Camera offline</span>
+        </div>
+
+        <div class="camera-frame">
+          <img id="cameraFeed" alt="Hydroponic camera feed">
+          <div id="cameraPlaceholder" class="camera-placeholder">
+            <span>CAMERA</span>
+            <p>Set your ESP32-CAM or IP camera URL in app.js.</p>
+          </div>
+        </div>
+
+        <div class="camera-controls">
+          <input id="cameraUrlInput" type="url" placeholder="Camera stream URL">
+          <button id="cameraSaveBtn" class="primary-btn">Set camera</button>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">SYSTEM</p>
+            <h2>Data Status</h2>
+          </div>
+        </div>
+
+        <div class="system-list">
+          <div><span>Last sensor update</span><strong id="lastUpdate">No data</strong></div>
+          <div><span>Stored records</span><strong id="storedRecords">0</strong></div>
+          <div><span>Pending sync</span><strong id="pendingRecords">0</strong></div>
+          <div><span>Device</span><strong id="deviceName">CROPWATCH-ESP32</strong></div>
+        </div>
+
+        <button id="demoBtn" class="secondary-btn full">Generate test reading</button>
+        <button id="exportBtn" class="secondary-btn full">Export stored data</button>
+        <button id="clearBtn" class="danger-btn full">Clear stored data</button>
+      </article>
+    </section>
+
+    <section class="panel history-panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">HISTORY</p>
+          <h2>Recent Sensor Records</h2>
+        </div>
+        <span id="recordCount" class="badge">0 records</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>pH</th>
+              <th>Air °C</th>
+              <th>Humidity</th>
+              <th>Water °C</th>
+              <th>NPK ppm</th>
+              <th>DO mg/L</th>
+              <th>Sync</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody">
+            <tr><td colspan="8" class="empty">No sensor records yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="toastContainer" class="toast-container"></div>
+  <script src="app.js"></script>
+</body>
+</html>
